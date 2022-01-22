@@ -95,7 +95,7 @@ const Form = (props) => {
                 <h3>{ formMessage() }</h3>
                 <div>
                     <label>First Name: </label>
-                    <input type="text" onChange={ handleFirstName } />
+                    <input type="text" onChange={(e) => handleFirstName(e) } />
                     {
                         firstNameError ?
                         <p>{ firstNameError }</p> :
@@ -104,7 +104,7 @@ const Form = (props) => {
                 </div>
                 <div>
                     <label>Last Name: </label>
-                    <input type="text" onChange={ handleLastName } />
+                    <input type="text" onChange={(e) => handleLastName(e) } />
                     {
                         lastNameError ?
                         <p>{ lastNameError }</p> :
@@ -113,7 +113,7 @@ const Form = (props) => {
                 </div>
                 <div>
                     <label>Email: </label>
-                    <input type="text" onChange={ handleEmail } />
+                    <input type="text" onChange={(e) => handleEmail(e) } />
                     {
                         emailError ?
                         <p>{ emailError }</p> :
@@ -122,23 +122,21 @@ const Form = (props) => {
                 </div>
                 <div>
                     <label>Password: </label>
-                    <input type="password" onChange={ handlePassword } />
+                    <input type="password" onChange={(e) => handlePassword(e) } />
                     {
-                        passwordError ?
-                        <p>{ passwordError }</p> :
-                        ''
+                        passwordError &&
+                        <p>{ passwordError }</p>
                     }
                 </div>
                 <div>
                     <label>Confirm Password: </label>
-                    <input type="password" onChange={ handleConfirmPassword } />
+                    <input type="password" onChange={(e) => handleConfirmPassword(e) } />
                     {
-                        confirmPasswordError ?
-                        <p>{ confirmPasswordError }</p> :
-                        ''
+                        confirmPasswordError &&
+                        <p>{ confirmPasswordError }</p>
                     }
                 </div>
-                <input type="submit" value="Create New User" />
+                <button type="submit" className="btn btn-primary">Create User</button>
             </form>
             <hr />
             <div>
