@@ -1,14 +1,16 @@
 import React, {useState} from 'react';
 import './App.css';
+import Form from './components/Form';
+import Tasks from './components/Tasks';
+
 
 function App() {
-  const [task, setTask] = useState("");
   const [taskArray, setTaskArray] = useState([]);
 
   // function to add a new task to the list
-  const submitHandler = (e) => {
+  const submitHandler = (e, task) => {
     e.preventDefault();
-    
+
     // create a new task as an object 
     const newTask = {
       task: task,
@@ -18,7 +20,7 @@ function App() {
     setTaskArray([...taskArray, newTask]);
 
     // clear input with help of value property
-    setTask("");
+    // setTask("");
   }
 
   // function to change task's complete property to true after checkbox is clicked
@@ -51,43 +53,19 @@ function App() {
     setTaskArray(fileredArray);
   }
 
-  // function to check style for checked tasks
-  const checkStyle = (indexFromBelow) => {
-
-  }
-
   return (
     <div className="container">
       <h1>To-do List</h1>
-      <form onSubmit={ submitHandler }>
-        <label class="form-label">New Task: </label>
-        <input class="form-control" value={task} type="text"
-        onChange={(e) => {
-        setTask(e.target.value)
-        }} />
-        <br/>
-        <button type="submit" class="btn btn-primary">Add To List</button>
-      </form>
+      <Form 
+      submitHandler = { submitHandler }
+      />
       <hr/>
       <h3>Current Tasks</h3>
-      {
-        taskArray.map((element, index) => {
-          return(
-            <div key={ index }>
-              <p>
-                <label class="form-check-label" for="flexCheckDefault"></label>
-                <input class="form-check-input" type="checkbox" id="flexCheckDefault"
-                onClick={() => handleCompleteTask(index)} /> 
-                <span style={{ textDecoration: element.complete ? "line-through" : "none"}}> { element.task }</span>
-              </p>
-              <p>
-                <button class="btn btn-danger btn-sm" onClick={ () => handleDeleteTask(index) } >Remove</button>
-              </p>
-              <hr/>
-            </div>
-          )
-        })
-      }
+      <Tasks 
+      taskArray = { taskArray }
+      handleCompleteTask = { handleCompleteTask }
+      handleDeleteTask = { handleDeleteTask } 
+      />
     </div>
   );
 }
