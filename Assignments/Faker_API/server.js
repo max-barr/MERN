@@ -11,7 +11,7 @@ const createUser = () => {
         id: faker.datatype.number(),
         firstName: faker.name.firstName(),
         lastName: faker.name.lastName(),
-        // phoneNumer: faker.phone.phoneNumber(),
+        phoneNumber: faker.phone.phoneNumber(),
         email: faker.internet.email(),
         password: faker.internet.password()
     };
