@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from "axios";
 
-const PersonForm = () => {
+const PersonForm = (props) => {
+    const {people, setPeople} = props;
+
     // keep track of what is typed via useState hook
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -19,6 +21,7 @@ const PersonForm = () => {
             .then(res => {
                 console.log(res);
                 console.log(res.data);
+                setPeople([...people, res.data]);
             })
             .catch(err => console.log(err))
     }
