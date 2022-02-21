@@ -1,55 +1,51 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from '@reach/router';
+import { Link, navigate } from '@reach/router';
+import PersonForm from './PersonForm';
+import DeleteButton from './DeleteButton';
+
 
 const Update = (props) => {
-    const {id} = props;
+    const { id } = props;
 
-    const [firstName, setFirstName] = useState();
-    const [lastName, setLastName] = useState();
+    const [person, setPerson] = useState();
+    const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
         axios.get(`http://localhost:8000/api/people/${id}`)
             .then(res => {
-                setFirstName(res.data.firstName);
-                setLastName(res.data.lastName);
+                setPerson(res.data);
+                setLoaded(true);
             })
             .catch((err) => {
                 console.log(err);
             })
     }, [])
 
-    const updatePerson = (e) => {
-        e.preventDefault();
-
-        axios.put(`http://localhost:8000/api/people/${id}`, { firstName, lastName })
+    const updatePerson = (person) => {
+        axios.put(`http://localhost:8000/api/people/${id}`, person)
             .then((res) => {
                 console.log(res);
+                navigate("/people");
             })
     }
 
     return (
         <div>
             <h1>Update a Person</h1>
-            <form onSubmit={updatePerson}>
-                <p>
-                    <label>First Name</label><br />
-                    <input type="text"
-                    name="firstName"
-                    value={firstName}
-                    onChange={(e) => { setFirstName(e.target.value) }} />
-                </p>
-                <p>
-                    <label>Last Name</label><br />
-                    <input type="text"
-                    name="lastName"
-                    value={lastName}
-                    onChange={(e) => { setLastName(e.target.value) }} />
-                </p>
-                <input type="submit" />
-            </form>
-            <br />
-            <Link to={"/people/"}>Home</Link>
+            {loaded && (
+                <>
+                    <PersonForm
+                        onSubmitProp={updatePerson}
+                        initialFirstName={person.firstName}
+                        initialLastName={person.lastName}
+                    />
+                    <br/>
+                    <DeleteButton personId={person._id} successCallback={() => navigate("/people")} />
+                    <br/>
+                    <Link to={"/people/"}>Home</Link>
+                </>
+            )}
         </div>
     )
 }
