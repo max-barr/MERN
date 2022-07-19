@@ -46,11 +46,13 @@ const login = async (req, res) => {
 
     console.log("userQuery", userQuery);
 
+    // Check if user with email exists
     if (userQuery === null) {
         res.status(400).json({ error: "Cannot find user with that email" });
         return;
     }
 
+    // Check userQuery against the password
     try {
         const compareBoolean = await bcrypt.compare(req.body.password, userQuery.password)
         if (!compareBoolean) {
@@ -64,6 +66,7 @@ const login = async (req, res) => {
 
     const userToken = await jwt.sign({ _id: userQuery._id }, process.env.SECRET_KEY)
     res
+        // Adds cookie to response, sets jwt as token
         .cookie("usertoken", userToken, process.env.SECRET_KEY, {
             httpOnly: true,
             expires: new Date(Date.now() + 90000000),
@@ -84,20 +87,18 @@ const protected = async (req, res) => {
     }
     console.log(decodedToken);
     res.send("Check your terminal");
-    // send client the user's first and last name
-    // let query;
-    // try {
-    //     query = await User.findOne({ _id: decodedToken.id });
-    //     // console.log(query);
-    // } catch (error) {
-    //     res.status(401).json(error);
-    //     return;
-    // }
-    // res.json({ firstName: query.firstName, lastName: query.lastName });
 };
+
+// Logout route
+const logout = (req, res) => {
+    console.log(req.cookie);
+    res.clearCookie("usertoken");
+    res.json({ message: "logout successful" });
+}
 
 module.exports = {
     registerUser,
     login,
-    protected
+    protected,
+    logout
 };
