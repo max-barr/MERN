@@ -30,3 +30,6 @@ const person = {
 
 const {firstName, lastName, ...attributes} = person;
 console.log(attributes);
+
+const personCopy = { ...person };
+console.log(personCopy);
