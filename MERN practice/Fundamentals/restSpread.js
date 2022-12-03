@@ -12,7 +12,6 @@ const person = {
     firstName: 'Jason',
     lastName: 'Tatum',
     email: 'tatum@celtics.com',
-    password: 'deuce0',
     addresses: [
         {
             address: '1 Boston Lane',
