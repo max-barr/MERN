@@ -13,3 +13,9 @@ function parentFunction( callback ) {
 };
 
 parentFunction(exampleFunction);
+
+// Rewrite example 
+
+parentFunction( function(message) {
+    console.log(message);
+});
